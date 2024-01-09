@@ -42,18 +42,27 @@ public class GameDAO {
         }
     }
 
-    public static List<Game> selectData() {
-        String sql = "SELECT * FROM Games";
+    public static List<Game> selectData(String state) {
+        String sql = "SELECT g.*, u.* FROM Games as g JOIN Unfinished as u ON g.id = u.game_id";
+
+        if (state != null && state != "Finished") {
+            sql += " WHERE u.state = ?";
+        }
+
         List<Game> gamesData = new ArrayList<>();
 
         try (Connection conn = Connect.getConnection(); PreparedStatement statement = conn.prepareStatement(sql)) {
 
+            if (sql.contains("WHERE")) {
+                statement.setString(1, state);
+            }
+
             ResultSet rs = statement.executeQuery();
             while (rs.next()) {
                 Game g = new Game(rs.getString("id"), rs.getString("name"), rs.getString("platform"));
+                g.setState(rs.getString("state"));
                 gamesData.add(g);
             }
-
             conn.close();
         } catch (SQLException e) {
             System.out.println(GameDAO.class.getName()+" "+e.getMessage());

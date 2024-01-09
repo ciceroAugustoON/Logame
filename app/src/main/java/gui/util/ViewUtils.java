@@ -3,7 +3,6 @@ package gui.util;
 import java.io.IOException;
 
 import javafx.fxml.FXMLLoader;
-import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
@@ -38,13 +37,9 @@ public class ViewUtils {
         
     }
 
-    public static Node loadFXML(String pathFXML) {
-        try {
-            FXMLLoader content = new FXMLLoader(ViewUtils.class.getResource(pathFXML));
-            return content.load();
-        } catch (IOException e) {
-            e.printStackTrace();
-            return null;
-        }
+    public static FXMLLoader loadFXML(String pathFXML) {
+        FXMLLoader content = new FXMLLoader(ViewUtils.class.getResource(pathFXML));
+        return content;
+        
     }
 }

@@ -17,11 +17,17 @@ import java.util.HashMap;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
+import javafx.scene.control.ScrollPane;
 import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.layout.AnchorPane;
 
 public class SyncTab implements Initializable{
+
+    @FXML
+    private ScrollPane content; 
+
     // Steam 
     @FXML
     private TextField steamApiKey;
@@ -117,7 +123,12 @@ public class SyncTab implements Initializable{
         }
     }
 
+    public ScrollPane getScrollPane() {
+        return content;
+    }
+
     @Override
     public void initialize(URL location, ResourceBundle resources) {
+
     }
 }

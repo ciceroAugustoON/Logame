@@ -4,19 +4,15 @@ import java.net.URL;
 import java.util.List;
 import java.util.ArrayList;
 import java.util.ResourceBundle;
-import java.util.concurrent.Executors;
-import java.util.concurrent.ScheduledExecutorService;
-import java.util.concurrent.TimeUnit;
-
 import com.fasterxml.jackson.databind.JsonNode;
 
 import db.GameDAO;
 import entity.Game;
 import gui.AddGameViewController;
+import gui.util.SaveAssets;
 import integrations.Steam;
 import integrations.SyncPlatform;
 import integrations.Steam.AssetType;
-import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -29,12 +25,12 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.stage.Stage;
 
-public class GameInfoController implements Initializable{
+public class GameInfo implements Initializable{
 
     private static Stage stage;
 
     public static void setStage(Stage stage) {
-        GameInfoController.stage = stage;
+        GameInfo.stage = stage;
     }
 
     @FXML
@@ -55,6 +51,7 @@ public class GameInfoController implements Initializable{
     private List<Game> gameList;
     private Game selected;
     private Steam steam = new Steam(platformNode.get("apiKey").asText(), platformNode.get("userID").asText());
+    private String imgPath;
     // Limit search method call
     private long lasttime = 0;
 
@@ -68,7 +65,7 @@ public class GameInfoController implements Initializable{
         }
             
         try {
-            String imgPath = Steam.getGameAsset(selected.getId(), AssetType.CAPSULE);
+            imgPath = Steam.getGameAsset(selected.getId(), AssetType.CAPSULE);
             Image img = new Image(imgPath, true);
             gameImage.setImage(img);
             gameImage.setPreserveRatio(true);
@@ -120,6 +117,10 @@ public class GameInfoController implements Initializable{
     private void onAddGameAction() {
         GameDAO.insertData(selected);
         stage.close();
+
+        if (imgPath != null) {
+            SaveAssets.saveImage(imgPath, selected.getId()+"_CAPSULE");
+        }
     }
 
     @Override

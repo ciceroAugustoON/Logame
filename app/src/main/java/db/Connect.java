@@ -17,7 +17,6 @@ public class Connect {
             String url = "jdbc:sqlite:"+dbPath.getPath();
 
             conn = DriverManager.getConnection(url);
-            System.out.println("Conexão com o banco de dados concluído.");
         } catch (URISyntaxException | SQLException e) {
             System.out.println(e.getMessage());
         }

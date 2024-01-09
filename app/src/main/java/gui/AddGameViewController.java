@@ -27,7 +27,6 @@ public class AddGameViewController implements Initializable{
     @FXML
     public void onCbPlataformAction() {
         PlataformSelected = plataformComboBox.getSelectionModel().getSelectedItem();
-        System.out.println(PlataformSelected);
     }
 
     @FXML

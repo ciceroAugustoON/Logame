@@ -14,10 +14,15 @@ public class App extends Application {
     public void start(Stage stage) {
         
         try {
-            Parent parent = FXMLLoader.load(getClass().getResource("/gui/MainView.fxml"));
+            // Setting Scene
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/gui/MainView.fxml"));
+            Parent parent = loader.load();
             Scene scene = new Scene(parent);
+
+            // Stage config
             stage.setScene(scene);
-            stage.setTitle("Jogatina");
+            stage.setResizable(false);
+            stage.setTitle("Logame");
             stage.show();
             stage.setOnCloseRequest(event -> {Platform.exit(); System.exit(0);});
         } catch(Exception e) {
