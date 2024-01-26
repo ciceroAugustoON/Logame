@@ -1,11 +1,13 @@
 package gui;
 
+import entity.Game;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 
 import gui.scenes.GameInfo;
 import gui.scenes.GameList;
+import gui.scenes.GameView;
 import gui.util.ViewUtils;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -53,7 +55,7 @@ public class MainViewController implements Initializable{
     private void onBtnPlayingAction() {
         if (tabSelected != 0) {
             int oldSelect = tabSelected;
-            GameList.setState("Playing");
+            GameList.setConfList("Playing", scroll, addGame);
             ScrollPane node;
             try {
                 node = ViewUtils.loadFXML("/gui/scenes/GameList.fxml").load();
@@ -65,6 +67,10 @@ public class MainViewController implements Initializable{
             tabSelected = 0;
             tabSelect(tabSelected);
             tabUnselect(oldSelect);
+            
+            if (!addGame.isVisible()) {
+                addGame.setVisible(true);
+            }
         }
         
     }
@@ -73,7 +79,7 @@ public class MainViewController implements Initializable{
     private void onBtnNextToPlayAction() {
         if (tabSelected != 1) {
             int oldSelect = tabSelected;
-            GameList.setState("Next");
+            GameList.setConfList("Next", scroll, addGame);
             ScrollPane node;
             try {
                 node = ViewUtils.loadFXML("/gui/scenes/GameList.fxml").load();
@@ -85,6 +91,10 @@ public class MainViewController implements Initializable{
             tabSelected = 1;
             tabSelect(tabSelected);
             tabUnselect(oldSelect);
+            
+            if (!addGame.isVisible()) {
+                addGame.setVisible(true);
+            }
         }
     }
 
@@ -92,7 +102,7 @@ public class MainViewController implements Initializable{
     private void onBtnBacklogAction() {
         if (tabSelected != 2) {
             int oldSelect = tabSelected;
-            GameList.setState("Backlog");
+            GameList.setConfList("Backlog", scroll, addGame);
             ScrollPane node;
             try {
                 node = ViewUtils.loadFXML("/gui/scenes/GameList.fxml").load();
@@ -104,6 +114,10 @@ public class MainViewController implements Initializable{
             tabSelected = 2;
             tabSelect(tabSelected);
             tabUnselect(oldSelect);
+            
+            if (!addGame.isVisible()) {
+                addGame.setVisible(true);
+            }
         }
     }
 
@@ -133,6 +147,18 @@ public class MainViewController implements Initializable{
             }
             tabSelect(tabSelected);
             tabUnselect(oldSelect);
+        }
+    }
+
+    public static void setGameView(Game game, ScrollPane scrollPane, ImageView addGameButton) {
+        try {
+            GameView.setGame(game);
+            FXMLLoader loader = ViewUtils.loadFXML("/gui/scenes/GameView.fxml");
+            ScrollPane content = loader.load();
+            scrollPane.setContent(content);
+            addGameButton.setVisible(false);
+        } catch (IOException e) {
+            e.printStackTrace();
         }
     }
 

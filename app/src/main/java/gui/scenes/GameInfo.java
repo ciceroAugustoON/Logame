@@ -9,10 +9,14 @@ import com.fasterxml.jackson.databind.JsonNode;
 import db.GameDAO;
 import entity.Game;
 import gui.AddGameViewController;
-import gui.util.SaveAssets;
+import gui.util.Assets;
 import integrations.Steam;
 import integrations.SyncPlatform;
 import integrations.Steam.AssetType;
+import java.util.concurrent.Executors;
+import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.TimeUnit;
+import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -23,15 +27,15 @@ import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.ComboBox;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.layout.Background;
+import javafx.scene.layout.BackgroundImage;
+import javafx.scene.layout.BackgroundPosition;
+import javafx.scene.layout.BackgroundRepeat;
+import javafx.scene.layout.BackgroundSize;
+import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 
-public class GameInfo implements Initializable{
-
-    private static Stage stage;
-
-    public static void setStage(Stage stage) {
-        GameInfo.stage = stage;
-    }
+public class GameInfo implements Initializable {
 
     @FXML
     private ComboBox<String> searchGame;
@@ -45,63 +49,60 @@ public class GameInfo implements Initializable{
     @FXML
     private Button addGame;
 
-    private JsonNode platformNode = SyncPlatform.getPlatformInfo(AddGameViewController.PlataformSelected);
+    private static Stage stage;
+
+    public static void setStage(Stage stage) {
+        GameInfo.stage = stage;
+    }
+
+    private final JsonNode platformNode = SyncPlatform.getPlatformInfo(AddGameViewController.PlatformSelected);
     private String searchText;
-    private List<String> gameName;
     private List<Game> gameList;
     private Game selected;
     private Steam steam = new Steam(platformNode.get("apiKey").asText(), platformNode.get("userID").asText());
-    private String imgPath;
+    private String capsule;
+    private String icon;
     // Limit search method call
-    private long lasttime = 0;
-
+    private ScheduledExecutorService limit = Executors.newScheduledThreadPool(2);
 
     @FXML
     private void onSearchGameAction() {
+        // Getting selected game
         for (Game g : gameList) {
-            if (searchGame.getSelectionModel().getSelectedItem() == g.getName()) {
+            if (searchGame.getSelectionModel().getSelectedItem().equals(g.getName())) {
                 selected = g;
             }
         }
-            
+        // Loading the game capsule and displaying in the panel
         try {
-            imgPath = Steam.getGameAsset(selected.getId(), AssetType.CAPSULE);
-            Image img = new Image(imgPath, true);
-            gameImage.setImage(img);
-            gameImage.setPreserveRatio(true);
-            gameImage.setFitWidth(160);
-            gameImage.setFitHeight(230);
+            capsule = Steam.getGameAsset(selected.getId(), AssetType.CAPSULE);
+            icon = Steam.getIcon(selected.getId(), selected.getIconURL());
+            gameImage.setImage(new Image(capsule, true));
+            
+            System.out.println(capsule);
         } catch (Exception e) {
             e.printStackTrace();
         }
+        // After the user selects the game, the combobox becomes enabled for selecting the state
         state.setDisable(false);
         state.getItems().addAll("Playing", "Next", "Backlog", "Finished");
     }
 
     @FXML
     private void onSearchGameKeyPressed() {
-        long time = System.currentTimeMillis();
+
+        searchGame.hide();
+        searchGame.getItems().clear();
+
+        searchText = searchGame.getEditor().getText();
+
+        limit.schedule(() -> this.searchForGames(), 2, TimeUnit.SECONDS);
 
         if (!state.isDisable()) {
             state.setDisable(true);
             state.getItems().clear();
         }
 
-        searchText = searchGame.getEditor().getText();
-        searchGame.hide();
-        searchGame.getItems().clear();
-
-        if ((time - lasttime) > 2000) {
-            gameList = steam.searchSuggestion(searchText);
-            gameName = new ArrayList<>();
-            for (Game g : gameList) {
-                gameName.add(g.getName());
-            }
-            ObservableList<String> observableList = FXCollections.observableList(gameName);
-            searchGame.getItems().addAll(observableList);
-            searchGame.show();
-            lasttime = time;
-        }
     }
 
     @FXML
@@ -116,11 +117,32 @@ public class GameInfo implements Initializable{
     @FXML
     private void onAddGameAction() {
         GameDAO.insertData(selected);
-        stage.close();
-
-        if (imgPath != null) {
-            SaveAssets.saveImage(imgPath, selected.getId()+"_CAPSULE");
+        if (capsule != null) {
+            Assets.saveImage(capsule, selected.getId() + "_CAPSULE");
         }
+        if (icon != null) {
+            Assets.saveImage(icon, selected.getId() + "_ICON");
+        }
+        stage.close();
+    }
+
+    private void searchForGames() {
+        gameList = steam.searchSuggestion(searchText);
+        List<String> gameNames = new ArrayList<>();
+        
+        for (Game g : gameList) {
+            gameNames.add(g.getName());
+        }
+
+        if (!gameNames.isEmpty()) {
+            // To avoid IllegalStateException
+            Platform.runLater(() -> {
+                searchGame.getItems().clear();
+                searchGame.getItems().addAll(gameNames);
+                searchGame.show();
+            });
+        }
+
     }
 
     @Override

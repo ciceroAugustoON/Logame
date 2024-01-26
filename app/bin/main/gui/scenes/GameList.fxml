@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+
+<ScrollPane fx:id="content" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="504.0" prefWidth="639.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gui.scenes.GameList">
+   <content>
+      <TableView fx:id="list" prefHeight="504.0" prefWidth="639.0">
+        <columns>
+          <TableColumn fx:id="icon" editable="false" maxWidth="32.0" minWidth="32.0" prefWidth="32.0" resizable="false" sortable="false" />
+          <TableColumn fx:id="name" editable="false" maxWidth="500.0" minWidth="100.0" prefWidth="480.0" resizable="false" sortable="false" text="Name" />
+            <TableColumn fx:id="platform" maxWidth="127.0" minWidth="127.0" prefWidth="127.0" resizable="false" text="Platform" />
+        </columns>
+      </TableView>
+   </content>
+</ScrollPane>

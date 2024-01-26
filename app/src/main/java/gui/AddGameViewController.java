@@ -17,22 +17,22 @@ import javafx.scene.control.Alert.AlertType;
 public class AddGameViewController implements Initializable{
     
     @FXML
-    private ComboBox<String> plataformComboBox;
+    private ComboBox<String> platformComboBox;
 
     @FXML
-    private Button selectPlataformButton;
+    private Button selectPlatformButton;
 
-    public static String PlataformSelected;
+    public static String PlatformSelected;
 
     @FXML
-    public void onCbPlataformAction() {
-        PlataformSelected = plataformComboBox.getSelectionModel().getSelectedItem();
+    public void onCbPlatformAction() {
+        PlatformSelected = platformComboBox.getSelectionModel().getSelectedItem();
     }
 
     @FXML
-    public void onBtnSelectPlataformAction() {
+    public void onBtnSelectPlatformAction() {
         boolean syncValidate = false;
-        switch (PlataformSelected) {
+        switch (PlatformSelected) {
             case "Steam":
                 syncValidate = SyncPlatform.ifSyncFileExist();
                 break;
@@ -49,18 +49,18 @@ public class AddGameViewController implements Initializable{
         
     }
 
-    public void cbPlataformLoad() {
+    public void cbPlatformLoad() {
         // Plataform list
         ObservableList<String> plataformGamesList = FXCollections.observableArrayList("Steam", "GOG", "PSX", "PS2");
 
         // Load combobox
-        plataformComboBox.setItems(plataformGamesList);
+        platformComboBox.setItems(plataformGamesList);
     }
 
     
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        cbPlataformLoad();
+        cbPlatformLoad();
     }
 }

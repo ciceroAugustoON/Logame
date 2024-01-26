@@ -8,6 +8,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import entity.Game;
+import gui.util.Assets;
+import javafx.scene.image.Image;
 
 public class GameDAO {
     
@@ -61,6 +63,7 @@ public class GameDAO {
             while (rs.next()) {
                 Game g = new Game(rs.getString("id"), rs.getString("name"), rs.getString("platform"));
                 g.setState(rs.getString("state"));
+                g.setIcon(Assets.loadImage(g.getId() + "_ICON"));
                 gamesData.add(g);
             }
             conn.close();

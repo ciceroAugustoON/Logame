@@ -51,6 +51,7 @@ public class Steam {
         for (JsonNode game : consult) {
             if (suggestions.size() < 5 && game.get("name").asText().toLowerCase().contains(search.toLowerCase())) {
                 Game g = new Game(game.get("appid").asText(), game.get("name").asText(), "Steam");
+                g.setIcon(game.get("img_icon_url").asText());
                 suggestions.add(g);
             }
         }
@@ -86,6 +87,10 @@ public class Steam {
                 return "";
         }
         
+    }
+
+    public static String getIcon(String appid, String icon_url) {
+        return "http://media.steampowered.com/steamcommunity/public/images/apps/"+appid+"/"+icon_url+".jpg";
     }
 
     public static boolean apiKeyValidate(String apiKey) {

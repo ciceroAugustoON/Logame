@@ -11,9 +11,9 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<ScrollPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gui.scenes.SyncTab">
+<ScrollPane fx:id="content" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="504.0" prefWidth="637.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gui.scenes.SyncTab">
    <content>
-      <VBox prefHeight="547.0" prefWidth="573.0">
+      <VBox prefHeight="496.0" prefWidth="573.0">
          <children>
             <AnchorPane prefHeight="263.0" prefWidth="573.0">
                <children>
@@ -52,7 +52,7 @@
                   </ImageView>
                </children>
             </AnchorPane>
-            <Button fx:id="saveButton" alignment="CENTER" mnemonicParsing="false" onAction="#onSaveButtonAction" prefHeight="25.0" prefWidth="115.0" text="Save" textAlignment="CENTER">
+            <Button fx:id="saveButton" alignment="CENTER" disable="true" mnemonicParsing="false" onAction="#onSaveButtonAction" prefHeight="25.0" prefWidth="115.0" text="Save" textAlignment="CENTER">
                <VBox.margin>
                   <Insets left="30.0" />
                </VBox.margin>
