@@ -38,20 +38,23 @@ public class GameList implements Initializable {
     
     @FXML
     private void onItemListClicked() {
-        // Verifying the selected game
-        Game g = list.selectionModelProperty().getValue().getSelectedItem();
-        System.out.println(g.infoGame());
-        // Verifying double click
-        list.setOnMouseClicked(new EventHandler<MouseEvent>(){
-            @Override
-            public void handle(MouseEvent mouseEvent) {
-                if (mouseEvent.getButton().equals(MouseButton.PRIMARY)) {
-                    if (mouseEvent.getClickCount() == 2 && g != null) {
-                        MainViewController.setGameView(g, scrollMain, addGameButton);
+        if (!list.selectionModelProperty().getValue().isEmpty()) {
+            // Verifying the selected game
+            Game g = list.selectionModelProperty().getValue().getSelectedItem();
+            System.out.println(g.toString());
+            // Verifying double click
+            list.setOnMouseClicked(new EventHandler<MouseEvent>(){
+                @Override
+                public void handle(MouseEvent mouseEvent) {
+                    if (mouseEvent.getButton().equals(MouseButton.PRIMARY)) {
+                        if (mouseEvent.getClickCount() == 2 && g != null) {
+                            MainViewController.setGameView(g, scrollMain, addGameButton);
+                        }
                     }
                 }
-            }
-        });
+            });
+        }
+        
     }
 
     public static void setConfList(String state, ScrollPane scroll, ImageView addGameButton) {

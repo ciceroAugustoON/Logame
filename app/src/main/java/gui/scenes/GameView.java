@@ -33,7 +33,7 @@ public class GameView implements Initializable{
         Image gameCapsule = new Image(img.toURI().toString());
         gamePortrait.setImage(gameCapsule);
         gameName.setText(g.getName());
-        gameDesc.setText(g.descGame());
+        gameDesc.setText(g.getRelease() + "\n" + g.getGenre() + "\n" + g.getScope());
     }
 
     @Override

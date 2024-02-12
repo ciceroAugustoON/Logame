@@ -1,19 +1,204 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.Cursor?>
 <?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ChoiceBox?>
 <?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.DatePicker?>
 <?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane fx:id="addGameParent" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="480.0" prefWidth="720.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gui.AddGameViewController">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="480.0" prefWidth="720.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gui.AddGameViewController">
    <children>
-      <Label layoutX="179.0" layoutY="165.0" text="Select the game platform">
-         <font>
-            <Font name="System Bold" size="24.0" />
-         </font>
-      </Label>
-      <ComboBox fx:id="platformComboBox" layoutX="273.0" layoutY="228.0" onAction="#onCbPlatformAction" prefHeight="24.0" prefWidth="174.0" promptText="Select platform" AnchorPane.bottomAnchor="228.0" />
-      <Button fx:id="selectPlatformButton" layoutX="331.0" layoutY="273.0" mnemonicParsing="false" onAction="#onBtnSelectPlatformAction" text="Select" />
+      <HBox layoutX="10.0" layoutY="10.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="480.0" prefWidth="720.0">
+         <children>
+            <Pane prefHeight="480.0" prefWidth="192.0">
+               <children>
+                  <Label layoutX="14.0" layoutY="9.0" text="Cover">
+                     <font>
+                        <Font size="18.0" />
+                     </font>
+                  </Label>
+                  <ImageView fx:id="cover" fitHeight="210.0" fitWidth="140.0" layoutX="14.0" layoutY="31.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@imgs/gameassets/cover_empty.png" />
+                     </image>
+                     <cursor>
+                        <Cursor fx:constant="HAND" />
+                     </cursor>
+                  </ImageView>
+                  <ImageView fx:id="icon" fitHeight="45.0" fitWidth="45.0" layoutX="14.0" layoutY="268.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@imgs/gameassets/icon_empty.png" />
+                     </image>
+                     <cursor>
+                        <Cursor fx:constant="HAND" />
+                     </cursor>
+                  </ImageView>
+                  <Label layoutX="14.0" layoutY="246.0" text="Icon">
+                     <font>
+                        <Font size="18.0" />
+                     </font>
+                  </Label>
+               </children>
+            </Pane>
+            <VBox prefHeight="480.0" prefWidth="510.0">
+               <children>
+                  <Label fx:id="nameLabel" text="Name*">
+                     <font>
+                        <Font size="18.0" />
+                     </font>
+                  </Label>
+                  <TextField fx:id="gameName" alignment="BOTTOM_LEFT" prefHeight="35.0" prefWidth="497.0">
+                     <font>
+                        <Font size="18.0" />
+                     </font>
+                     <VBox.margin>
+                        <Insets top="10.0" />
+                     </VBox.margin>
+                  </TextField>
+                  <HBox prefHeight="79.0" prefWidth="468.0">
+                     <children>
+                        <VBox alignment="BOTTOM_LEFT" prefHeight="55.0" prefWidth="155.0">
+                           <children>
+                              <Label fx:id="stateLabel" text="State*">
+                                 <font>
+                                    <Font size="18.0" />
+                                 </font>
+                              </Label>
+                              <ChoiceBox fx:id="gameState" prefHeight="35.0" prefWidth="155.0" />
+                           </children>
+                           <HBox.margin>
+                              <Insets right="15.0" />
+                           </HBox.margin>
+                        </VBox>
+                        <VBox alignment="BOTTOM_LEFT" prefHeight="48.0" prefWidth="155.0">
+                           <children>
+                              <Label text="Finished Date">
+                                 <font>
+                                    <Font size="18.0" />
+                                 </font>
+                              </Label>
+                              <DatePicker fx:id="date" disable="true" prefHeight="34.0" prefWidth="155.0" />
+                           </children>
+                        </VBox>
+                     </children>
+                     <padding>
+                        <Insets bottom="10.0" top="10.0" />
+                     </padding>
+                  </HBox>
+                  <HBox layoutX="10.0" layoutY="86.0" prefHeight="79.0" prefWidth="468.0">
+                     <children>
+                        <VBox alignment="BOTTOM_LEFT" prefHeight="55.0" prefWidth="155.0">
+                           <children>
+                              <Label fx:id="platformLabel" text="Platform*">
+                                 <font>
+                                    <Font size="18.0" />
+                                 </font>
+                              </Label>
+                              <ComboBox fx:id="platformComboBox" editable="true" prefHeight="35.0" prefWidth="155.0" />
+                           </children>
+                           <HBox.margin>
+                              <Insets right="15.0" />
+                           </HBox.margin>
+                        </VBox>
+                        <VBox alignment="BOTTOM_LEFT" prefHeight="55.0" prefWidth="155.0">
+                           <HBox.margin>
+                              <Insets right="15.0" />
+                           </HBox.margin>
+                           <children>
+                              <Label text="Finished Time">
+                                 <font>
+                                    <Font size="18.0" />
+                                 </font>
+                              </Label>
+                              <TextField fx:id="hours" alignment="BOTTOM_RIGHT" disable="true" prefHeight="35.0" prefWidth="155.0" promptText="Hours">
+                                 <font>
+                                    <Font size="18.0" />
+                                 </font>
+                              </TextField>
+                           </children>
+                        </VBox>
+                        <VBox alignment="BOTTOM_LEFT" prefHeight="40.0" prefWidth="155.0">
+                           <children>
+                              <TextField fx:id="minutes" alignment="BOTTOM_LEFT" disable="true" prefHeight="35.0" promptText="Minutes">
+                                 <font>
+                                    <Font size="18.0" />
+                                 </font>
+                              </TextField>
+                           </children>
+                        </VBox>
+                     </children>
+                     <padding>
+                        <Insets bottom="10.0" top="10.0" />
+                     </padding>
+                  </HBox>
+                  <HBox layoutX="10.0" layoutY="165.0" prefHeight="79.0" prefWidth="468.0">
+                     <children>
+                        <VBox prefHeight="55.0" prefWidth="155.0">
+                           <children>
+                              <Label text="Release Year">
+                                 <font>
+                                    <Font size="18.0" />
+                                 </font>
+                              </Label>
+                              <TextField fx:id="realeseYear" alignment="BOTTOM_LEFT" prefHeight="35.0" prefWidth="155.0">
+                                 <font>
+                                    <Font size="18.0" />
+                                 </font>
+                              </TextField>
+                           </children>
+                           <HBox.margin>
+                              <Insets right="15.0" />
+                           </HBox.margin>
+                        </VBox>
+                        <VBox prefHeight="55.0" prefWidth="155.0">
+                           <HBox.margin>
+                              <Insets right="15.0" />
+                           </HBox.margin>
+                           <children>
+                              <Label text="Genre">
+                                 <font>
+                                    <Font size="18.0" />
+                                 </font>
+                              </Label>
+                              <ComboBox fx:id="genre" editable="true" prefHeight="35.0" prefWidth="155.0" />
+                           </children>
+                        </VBox>
+                        <VBox prefHeight="48.0" prefWidth="155.0">
+                           <children>
+                              <Label text="Scope">
+                                 <font>
+                                    <Font size="18.0" />
+                                 </font>
+                              </Label>
+                              <ComboBox fx:id="scope" editable="true" prefHeight="35.0" prefWidth="155.0" />
+                           </children>
+                        </VBox>
+                     </children>
+                     <padding>
+                        <Insets bottom="10.0" top="10.0" />
+                     </padding>
+                  </HBox>
+                  <HBox alignment="CENTER" prefHeight="80.0" prefWidth="496.0">
+                     <children>
+                        <Button fx:id="addGameButton" mnemonicParsing="false" onAction="#onAddGameButtonAction" prefHeight="35.0" prefWidth="155.0" text="Add Game" HBox.hgrow="ALWAYS" />
+                     </children>
+                  </HBox>
+               </children>
+               <padding>
+                  <Insets top="10.0" />
+               </padding>
+            </VBox>
+         </children>
+      </HBox>
    </children>
 </AnchorPane>

@@ -5,7 +5,6 @@ import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 
-import gui.scenes.GameInfo;
 import gui.scenes.GameList;
 import gui.scenes.GameView;
 import gui.util.ViewUtils;
@@ -36,9 +35,6 @@ public class MainViewController implements Initializable{
 
     @FXML
     private ImageView addGame;
-
-    @FXML
-    private Button conf;
 
     @FXML
     private VBox tabs;
@@ -123,31 +119,32 @@ public class MainViewController implements Initializable{
 
     @FXML
     private void onBtnCompletedAction() {
-        System.out.println("Ainda em construção");
+        if (tabSelected != 3) {
+            int oldSelect = tabSelected;
+            GameList.setConfList("Finished", scroll, addGame);
+            ScrollPane node;
+            try {
+                node = ViewUtils.loadFXML("/gui/scenes/GameList.fxml").load();
+                scroll.setContent(node.getContent());
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+
+            tabSelected = 3;
+            tabSelect(tabSelected);
+            tabUnselect(oldSelect);
+            
+            if (!addGame.isVisible()) {
+                addGame.setVisible(true);
+            }
+        }
     }
 
     @FXML
     private void onBtnAddGameAction() {
         Stage stage = ViewUtils.createNewStage("/gui/AddGameView.fxml");
-        GameInfo.setStage(stage);
+        AddGameViewController.setStage(stage);
         // Steam.setUserID(SyncPlataform.getUserID());
-    }
-
-    @FXML
-    private void onBtnConfAction() {
-        if (tabSelected != 4) {
-            int oldSelect = tabSelected;
-            tabSelected = 4;
-            try {
-                FXMLLoader loader = ViewUtils.loadFXML("/gui/scenes/SyncTab.fxml");
-                ScrollPane content = loader.load();
-                scroll.setContent(content.getContent());
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-            tabSelect(tabSelected);
-            tabUnselect(oldSelect);
-        }
     }
 
     public static void setGameView(Game game, ScrollPane scrollPane, ImageView addGameButton) {
@@ -157,6 +154,7 @@ public class MainViewController implements Initializable{
             ScrollPane content = loader.load();
             scrollPane.setContent(content);
             addGameButton.setVisible(false);
+            
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -176,11 +174,8 @@ public class MainViewController implements Initializable{
             case 3:
                 btnCompleted.getStyleClass().add("button_onclick");
                 break;
-            case 4:
-                conf.getStyleClass().add("button_onclick");
-                break;
             default:
-                System.out.println("Aba inexistente");
+                System.out.println("Invalid Option");
                 break;
         }
     }
@@ -198,11 +193,7 @@ public class MainViewController implements Initializable{
             case 3:
                 btnCompleted.getStyleClass().remove("button_onclick");
                 break;
-            case 4:
-                conf.getStyleClass().remove("button_onclick");
-                break;
             default:
-                System.out.println("Aba inexistente");
                 break;
         }
     }

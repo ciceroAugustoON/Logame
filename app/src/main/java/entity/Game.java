@@ -1,99 +1,116 @@
 package entity;
 
-import java.io.File;
-
+import java.util.ArrayList;
+import java.util.List;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 
+
 public class Game {
-
-    private String id;
+    // requesteds
+    private int id;
     private String name;
-    private String platform;
-    private String icon;
-    private String state;
+    private List<Instance> instances;
     // decription
-    private String publisher;
-    private String developer;
-    private String realese;
-    private String genre;
-    private String scope;
-
-    public Game(String id, String name, String platform) {
+    private String realese  = "Unknow";
+    private String genre  = "Unknow";
+    private String scope  = "Unknow";
+    // assets
+    private String icon;
+    
+    public Game(int id, String name) {
         this.id = id;
         this.name = name;
-        this.platform = platform;
-        // null to Unknow
-        publisher = "Unknow";
-        developer = "Unknow";
-        realese = "Unknow";
-        genre = "Unknow";
-        scope = "Unknow";
+        this.icon = "/gui/imgs/gameassets/icon_empty.png";
     }
-
-    public String getId() {
+    
+    public int getId() {
         return id;
     }
-
-    public void setId(String id) {
+    
+    public void setId(int id) {
         this.id = id;
     }
-
+    
     public String getName() {
         return name;
     }
-
+    
     public void setName(String name) {
         this.name = name;
     }
-
-    public String getPlatform() {
-        return platform;
+    
+    public List<Instance> getInstances() {
+        return instances;
     }
 
-    public void setPlatform(String platform) {
-        this.platform = platform;
+    public void setInstances(List<Instance> instances) {
+        this.instances = instances;
     }
-
-    public ImageView getIcon() {
-        ImageView img = new ImageView(new Image(new File(icon).toURI().toString()));
-
-        return img;
+    
+    public void addInstances(Instance instance) {
+        if (instances == null) {
+            instances = new ArrayList<>();
+        }
+        
+        instances.add(instance);
     }
-
-    public String getIconURL() {
-        return icon;
+    
+    public String getRelease() {
+        return realese;
     }
-
-    public void setIcon(String imagePath) {
-        this.icon = imagePath;
-    }
-
-    public String getState() {
-        return state;
-    }
-
-    public void setState(String state) {
-        this.state = state;
-    }
-
-    public String toString() {
-        return name;
-    }
-
-    public String infoGame() {
-        return "Id: " + id + " Name: " + name + " Platform: " + platform;
-    }
-
-    public void setDesc(String publisher, String developer, String realese, String genre, String scope) {
-        this.publisher = publisher;
-        this.developer = developer;
+    
+    public void setRealese(String realese) {
         this.realese = realese;
+    }
+    
+    public String getGenre() {
+        return genre;
+    }
+
+    public void setGenre(String genre) {
         this.genre = genre;
+    }
+
+    public String getScope() {
+        return scope;
+    }
+
+    public void setScope(String scope) {
         this.scope = scope;
     }
     
-    public String descGame() {
-        return "Publisher: " + publisher + "\nDeveloper: " + developer + "\nRealese Date: " + realese + "\nGenre: " + genre + "\nScope: " + scope;
+    public ImageView getIcon() {
+        Image iconImg = new Image(Game.class.getResourceAsStream(icon));
+        ImageView iconView = new ImageView(iconImg);
+        iconView.setFitWidth(32);
+        iconView.setFitHeight(32);
+        return iconView;
     }
+
+    public void setIcon(String icon) {
+        this.icon = "/gui/imgs/gameassets/" + icon;
+    }
+    
+    @Override
+    public String toString() {
+        return name;
+    }
+    // Preset list of platforms
+    public static List<String> getPlatforms() {
+        List<String> sony = List.of("PSX", "PS2", "PSP", "PS3", "PSVita", "PS4", "PS5");
+        List<String> nintendo = List.of("NES", "SNES", "GB", "GBC", "N64", "GBA", "GameCube", "NDS", "3DS","Wii", "Wii U", "Switch");
+        List<String> sega = List.of("Master System", "Sega Genesis", "Game Gear", "Sega Saturn", "DreamCast");
+        List<String> microsoft = List.of("Xbox", "Xbox 360", "Xbox One", "Xbox Series");
+        
+        List<String> allPlatforms = new ArrayList<>();
+        allPlatforms.add("PC");
+        allPlatforms.addAll(sony);
+        allPlatforms.addAll(nintendo);
+        allPlatforms.addAll(sega);
+        allPlatforms.addAll(microsoft);
+        
+        return allPlatforms;
+    } 
+
 }

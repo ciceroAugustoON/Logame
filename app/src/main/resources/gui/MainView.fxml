@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.geometry.Insets?>
 <?import javafx.geometry.Rectangle2D?>
 <?import javafx.scene.Cursor?>
 <?import javafx.scene.control.Button?>
@@ -26,10 +25,6 @@
                   <Button fx:id="btnNextToPlay" mnemonicParsing="false" onAction="#onBtnNextToPlayAction" prefWidth="257.0" styleClass="button_off" text="Next to Play" textFill="WHITE" />
                   <Button fx:id="btnBacklog" mnemonicParsing="false" onAction="#onBtnBacklogAction" prefWidth="257.0" styleClass="button_off" text="Backlog" textFill="WHITE" />
                   <Button fx:id="btnCompleted" mnemonicParsing="false" onAction="#onBtnCompletedAction" prefWidth="257.0" styleClass="button_off" text="Completed" textFill="WHITE" />
-                  <Button fx:id="conf" mnemonicParsing="false" onAction="#onBtnConfAction" prefHeight="39.0" prefWidth="257.0" styleClass="button_off" text="Configurations" textFill="#f8f8f8">
-                     <VBox.margin>
-                        <Insets />
-                     </VBox.margin></Button>
                </children>
             </VBox>
             <ScrollPane fx:id="scroll" hbarPolicy="NEVER" HBox.hgrow="ALWAYS" />
