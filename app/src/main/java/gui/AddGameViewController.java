@@ -4,6 +4,9 @@ import db.GameDAO;
 import entity.Game;
 import entity.Instance;
 import gui.util.Alerts;
+import gui.util.Assets;
+import java.io.File;
+import java.io.InputStream;
 import java.net.URL;
 import java.util.ResourceBundle;
 
@@ -17,8 +20,10 @@ import javafx.scene.control.DatePicker;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.control.TextFormatter;
+import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.paint.Color;
+import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 
 public class AddGameViewController implements Initializable{
@@ -63,10 +68,39 @@ public class AddGameViewController implements Initializable{
     @FXML
     private Button addGameButton;
     
+    private final InputStream empyCover = AddGameViewController.class.getResourceAsStream("/gui/imgs/gameassets/cover_empty.png"); 
+    private final InputStream emptyIcon = AddGameViewController.class.getResourceAsStream("/gui/imgs/gameassets/icon_empty.png");
+    private String coverPath = null;
+    private String iconPath = null;
     private static Stage stage;
     
     @FXML
+    private void onCoverMouseClicked() {
+        cover.setImage(new Image(empyCover));
+        Image coverImage = Assets.assetFileChooser(Assets.AssetType.COVER);
+        if (coverImage != null) 
+            cover.setImage(coverImage);
+    }
+    
+    @FXML
+    private void onIconMouseClicked() {
+        icon.setImage(new Image(emptyIcon));
+        Image iconImage = Assets.assetFileChooser(Assets.AssetType.ICON);
+        if (iconImage != null)
+            icon.setImage(iconImage);
+    }
+    
+    @FXML
     private void onAddGameButtonAction() {
+        coverPath = cover.getImage().getUrl();
+        if (coverPath.equals(empyCover.toString())) {
+            coverPath = null;
+        }
+        iconPath = icon.getImage().getUrl();
+        if (iconPath.equals(emptyIcon.toString())) {
+            iconPath = null;
+        }
+        
         if (gameName.getText().isBlank()|| gameState.getValue() == null || platformComboBox.getValue() == null) {
             String message = "You have requested fields not filled:";
             if (gameName.getText().isEmpty()) {
@@ -103,10 +137,10 @@ public class AddGameViewController implements Initializable{
             if (gameState.getValue().equals("Finished")) {
                 int time = Integer.parseInt(hours.getText()) * 60 + Integer.parseInt(minutes.getText());
                 Instance i = new Instance(platformComboBox.getValue(), "Finished", date.getValue(), time);
-                GameDAO.insertData(g, i);
+                GameDAO.insertData(g, i, coverPath, iconPath);
             } else {
                 Instance i = new Instance(platformComboBox.getValue(), gameState.getValue());
-                GameDAO.insertData(g, i);
+                GameDAO.insertData(g, i, coverPath, iconPath);
             }
             Alerts.showAlert("Successful", null, "Game added to your list", Alert.AlertType.INFORMATION);
             stage.close();

@@ -1,5 +1,6 @@
 package gui;
 
+import db.GameDAO;
 import entity.Game;
 import java.io.IOException;
 import java.net.URL;
@@ -147,9 +148,10 @@ public class MainViewController implements Initializable{
         // Steam.setUserID(SyncPlataform.getUserID());
     }
 
-    public static void setGameView(Game game, ScrollPane scrollPane, ImageView addGameButton) {
+    public static void setGameView(int gameId, ScrollPane scrollPane, ImageView addGameButton) {
         try {
-            GameView.setGame(game);
+            Game g = GameDAO.selectGameData(gameId);
+            GameView.setGame(g);
             FXMLLoader loader = ViewUtils.loadFXML("/gui/scenes/GameView.fxml");
             ScrollPane content = loader.load();
             scrollPane.setContent(content);

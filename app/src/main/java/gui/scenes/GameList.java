@@ -6,6 +6,7 @@ import java.util.ResourceBundle;
 import db.GameDAO;
 import entity.Game;
 import gui.MainViewController;
+import gui.util.Assets;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.EventHandler;
@@ -16,6 +17,7 @@ import javafx.scene.control.TableCell;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
@@ -28,7 +30,7 @@ public class GameList implements Initializable {
     @FXML
     private TableView<Game> list;
     @FXML
-    private TableColumn<Game, ImageView> icon;
+    private TableColumn<Game, String> icon;
     @FXML
     private TableColumn<Game, String> name;
     
@@ -48,7 +50,7 @@ public class GameList implements Initializable {
                 public void handle(MouseEvent mouseEvent) {
                     if (mouseEvent.getButton().equals(MouseButton.PRIMARY)) {
                         if (mouseEvent.getClickCount() == 2 && g != null) {
-                            MainViewController.setGameView(g, scrollMain, addGameButton);
+                            MainViewController.setGameView(g.getId(), scrollMain, addGameButton);
                         }
                     }
                 }
@@ -71,15 +73,20 @@ public class GameList implements Initializable {
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        icon.setCellValueFactory(new PropertyValueFactory<Game, ImageView>("icon"));
+        icon.setCellValueFactory(new PropertyValueFactory<>("icon"));
         name.setCellValueFactory(new PropertyValueFactory<>("name"));
 
-        icon.setCellFactory(column -> new TableCell<Game, ImageView>() {
+        icon.setCellFactory(column -> new TableCell<Game, String>() {
             @Override
-            protected void updateItem(ImageView item, boolean empty) {
-                super.updateItem(item, empty);
-                if (item != null && !empty) {
-                    setGraphic(item);
+            protected void updateItem(String imagename, boolean empty) {
+                super.updateItem(imagename, empty);
+                if (imagename != null && !empty) {
+                    System.out.println("imagename");
+                    Image img = new Image(Assets.loadImage(imagename));
+                    ImageView imgView = new ImageView(img);
+                    imgView.setFitHeight(32);
+                    imgView.setFitWidth(32);
+                    setGraphic(imgView);
                 } else {
                     setGraphic(null);
                 }

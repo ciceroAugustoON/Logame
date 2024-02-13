@@ -27,7 +27,7 @@
                         <Font size="18.0" />
                      </font>
                   </Label>
-                  <ImageView fx:id="cover" fitHeight="210.0" fitWidth="140.0" layoutX="14.0" layoutY="31.0" pickOnBounds="true" preserveRatio="true">
+                  <ImageView fx:id="cover" fitHeight="210.0" fitWidth="140.0" layoutX="14.0" layoutY="31.0" onMouseClicked="#onCoverMouseClicked" pickOnBounds="true" preserveRatio="true">
                      <image>
                         <Image url="@imgs/gameassets/cover_empty.png" />
                      </image>
@@ -35,7 +35,7 @@
                         <Cursor fx:constant="HAND" />
                      </cursor>
                   </ImageView>
-                  <ImageView fx:id="icon" fitHeight="45.0" fitWidth="45.0" layoutX="14.0" layoutY="268.0" pickOnBounds="true" preserveRatio="true">
+                  <ImageView fx:id="icon" fitHeight="45.0" fitWidth="45.0" layoutX="14.0" layoutY="268.0" onMouseClicked="#onIconMouseClicked" pickOnBounds="true" preserveRatio="true">
                      <image>
                         <Image url="@imgs/gameassets/icon_empty.png" />
                      </image>

@@ -9,15 +9,23 @@ import java.util.List;
 
 import entity.Game;
 import entity.Instance;
+import gui.util.Assets;
 import java.sql.Date;
 
 public class GameDAO {
     
-    public static void insertData(Game game, Instance i) {
+    public static void insertData(Game game, Instance i, String coverPath, String iconPath) {
         String sql = "INSERT INTO games(id, name, realese, genre, scope) VALUES(?,?,?,?,?)";
         String sqlState = "INSERT INTO unfinished(game_id, state, platform) VALUES(?, ?, ?)";
         
         int id = getRecordNumber("games") + 1;
+        
+        if (coverPath != null) {
+            Assets.saveImage(coverPath, id + "_COVER");
+        }
+        if (iconPath != null) {
+            Assets.saveImage(iconPath, id + "_ICON");
+        }
 
         try (Connection conn = Connect.getConnection(); PreparedStatement prepare = conn.prepareStatement(sql)) {
             
@@ -30,7 +38,6 @@ public class GameDAO {
             prepare.executeUpdate();
 
             if (!i.getState().equals("Finished")) {
-                System.out.println("nooooooo");
                 try (PreparedStatement stmt = conn.prepareStatement(sqlState)) {
                     stmt.setInt(1, id);
                     stmt.setString(2, i.getState());
@@ -80,6 +87,7 @@ public class GameDAO {
                 g.setRealese(rs.getString("realese"));
                 g.setGenre(rs.getString("genre"));
                 g.setScope(rs.getString("scope"));
+                g.setIcon(g.getId() + "_ICON");
                 System.out.println(g);
                 games.add(g);
             }
@@ -94,7 +102,7 @@ public class GameDAO {
         Game g;
         String sqlG = "SELECT g.* FROM games as g WHERE g.id = " + id;
         String sqlU = "SELECT u.* FROM unfinished as u WHERE u.game_id = " + id;
-        String sqlF = "SELECT u.* FROM finished as f WHERE f.game_id = " + id;
+        String sqlF = "SELECT f.* FROM finished as f WHERE f.game_id = " + id;
         
         try (Connection conn = Connect.getConnection(); PreparedStatement stmt = conn.prepareStatement(sqlG)) {
             ResultSet rs = stmt.executeQuery();
@@ -103,6 +111,7 @@ public class GameDAO {
             g.setRealese(rs.getString("realese"));
             g.setGenre(rs.getString("genre"));
             g.setScope(rs.getString("scope"));
+            g.setCover(g.getId() + "_COVER");
             
             try (PreparedStatement stmt2 = conn.prepareStatement(sqlU)) {
                 ResultSet rs2 = stmt2.executeQuery();

@@ -25,13 +25,13 @@ public class GameView implements Initializable{
     private static Game g;
     
     public static void setGame(Game game) {
+        System.out.println(game.toString() + "Dentro do setGame");
         g = game;
     }
     
     public void load() {
-        File img = new File(Assets.loadImage(g.getId()+"_CAPSULE"));
-        Image gameCapsule = new Image(img.toURI().toString());
-        gamePortrait.setImage(gameCapsule);
+        Image imgCover = new Image(Assets.loadImage(g.getCover()));
+        gamePortrait.setImage(imgCover);
         gameName.setText(g.getName());
         gameDesc.setText(g.getRelease() + "\n" + g.getGenre() + "\n" + g.getScope());
     }

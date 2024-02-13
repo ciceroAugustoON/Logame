@@ -2,8 +2,6 @@ package entity;
 
 import java.util.ArrayList;
 import java.util.List;
-import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
 
 
 public class Game {
@@ -17,11 +15,11 @@ public class Game {
     private String scope  = "Unknow";
     // assets
     private String icon;
+    private String cover;
     
     public Game(int id, String name) {
         this.id = id;
         this.name = name;
-        this.icon = "/gui/imgs/gameassets/icon_empty.png";
     }
     
     public int getId() {
@@ -80,16 +78,20 @@ public class Game {
         this.scope = scope;
     }
     
-    public ImageView getIcon() {
-        Image iconImg = new Image(Game.class.getResourceAsStream(icon));
-        ImageView iconView = new ImageView(iconImg);
-        iconView.setFitWidth(32);
-        iconView.setFitHeight(32);
-        return iconView;
+    public String getIcon() {
+        return icon;
     }
 
     public void setIcon(String icon) {
-        this.icon = "/gui/imgs/gameassets/" + icon;
+        this.icon = icon;
+    }
+    
+    public String getCover() {
+        return cover;
+    }
+
+    public void setCover(String cover) {
+        this.cover = cover;
     }
     
     @Override
