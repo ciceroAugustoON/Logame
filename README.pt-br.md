@@ -1,6 +1,6 @@
 # Logame
 
-[![Language](https://img.shields.io/badge/lang-en-blue)]() [![Language](https://img.shields.io/badge/lang-pt_br-green)]()
+[![Language](https://img.shields.io/badge/lang-en-blue)](https://github.com/ciceroAugustoON/Logame/blob/main/README.md) [![Language](https://img.shields.io/badge/lang-pt_br-green)]()
 
 Logame é um aplicativo feito para gerenciar seus jogos, organizando-os em 4 "estados": Jogando, Próximos, Pendentes e Finalizados.
 
