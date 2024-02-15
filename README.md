@@ -1,6 +1,6 @@
 # Logame
 
-[![Language](https://img.shields.io/badge/lang-en-blue)](https://github.com/ciceroAugustoON/Logame/blob/main/README.md) [![Language](https://img.shields.io/badge/lang-pt_br-green)](https://github.com/ciceroAugustoON/Logame/blob/main/README.pt-br.md)
+[![Language](https://img.shields.io/badge/lang-en-blue)](#) [![Language](https://img.shields.io/badge/lang-pt_br-green)](https://github.com/ciceroAugustoON/Logame/blob/main/README.pt-br.md)
 
 Logame is an application designed to manage your games, organizing them into 4 "states": Playing, Next, Backlog, and Finished.
 
