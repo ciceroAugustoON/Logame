@@ -26,18 +26,17 @@ public class GameList implements Initializable {
 
     @FXML
     private ScrollPane content;
-
     @FXML
     private TableView<Game> list;
     @FXML
     private TableColumn<Game, String> icon;
     @FXML
     private TableColumn<Game, String> name;
-    
-    private static ScrollPane  scrollMain;
+
+    private static ScrollPane scrollMain;
     private static ObservableList<Game> listGames;
-    private static ImageView addGameButton; 
-    
+    private static ImageView addGameButton;
+
     @FXML
     private void onItemListClicked() {
         if (!list.selectionModelProperty().getValue().isEmpty()) {
@@ -45,7 +44,7 @@ public class GameList implements Initializable {
             Game g = list.selectionModelProperty().getValue().getSelectedItem();
             System.out.println(g.toString());
             // Verifying double click
-            list.setOnMouseClicked(new EventHandler<MouseEvent>(){
+            list.setOnMouseClicked(new EventHandler<MouseEvent>() {
                 @Override
                 public void handle(MouseEvent mouseEvent) {
                     if (mouseEvent.getButton().equals(MouseButton.PRIMARY)) {
@@ -56,7 +55,7 @@ public class GameList implements Initializable {
                 }
             });
         }
-        
+
     }
 
     public static void setConfList(String state, ScrollPane scroll, ImageView addGameButton) {
@@ -65,11 +64,10 @@ public class GameList implements Initializable {
         GameList.addGameButton = addGameButton;
         System.out.println(state);
     }
-    
+
     public ScrollPane getScrollPane() {
         return content;
     }
-
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {

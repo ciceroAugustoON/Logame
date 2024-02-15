@@ -5,7 +5,6 @@ import entity.Game;
 import entity.Instance;
 import gui.util.Alerts;
 import gui.util.Assets;
-import java.io.File;
 import java.io.InputStream;
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -23,10 +22,10 @@ import javafx.scene.control.TextFormatter;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.paint.Color;
-import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 
-public class AddGameViewController implements Initializable{
+public class AddGameViewController implements Initializable {
+
     // Required Fields
     @FXML
     private Label nameLabel;
@@ -40,14 +39,11 @@ public class AddGameViewController implements Initializable{
     private Label platformLabel;
     @FXML
     private ComboBox<String> platformComboBox;
-    
     // Required if state = "Finished"
     @FXML
     private TextField hours;
-    
     @FXML
     private TextField minutes;
-    
     @FXML
     private DatePicker date;
     // Optional Fields
@@ -55,41 +51,41 @@ public class AddGameViewController implements Initializable{
     private ComboBox<String> genre;
     @FXML
     private ComboBox<String> scope;
-    
     @FXML
     private TextField realeseYear;
-    
     // Game Assets
     @FXML
     private ImageView cover;
     @FXML
     private ImageView icon;
-    
+
     @FXML
     private Button addGameButton;
-    
-    private final InputStream empyCover = AddGameViewController.class.getResourceAsStream("/gui/imgs/gameassets/cover_empty.png"); 
+
+    private final InputStream empyCover = AddGameViewController.class.getResourceAsStream("/gui/imgs/gameassets/cover_empty.png");
     private final InputStream emptyIcon = AddGameViewController.class.getResourceAsStream("/gui/imgs/gameassets/icon_empty.png");
     private String coverPath = null;
     private String iconPath = null;
     private static Stage stage;
-    
+
     @FXML
     private void onCoverMouseClicked() {
         cover.setImage(new Image(empyCover));
         Image coverImage = Assets.assetFileChooser(Assets.AssetType.COVER);
-        if (coverImage != null) 
+        if (coverImage != null) {
             cover.setImage(coverImage);
+        }
     }
-    
+
     @FXML
     private void onIconMouseClicked() {
         icon.setImage(new Image(emptyIcon));
         Image iconImage = Assets.assetFileChooser(Assets.AssetType.ICON);
-        if (iconImage != null)
+        if (iconImage != null) {
             icon.setImage(iconImage);
+        }
     }
-    
+
     @FXML
     private void onAddGameButtonAction() {
         coverPath = cover.getImage().getUrl();
@@ -100,8 +96,8 @@ public class AddGameViewController implements Initializable{
         if (iconPath.equals(emptyIcon.toString())) {
             iconPath = null;
         }
-        
-        if (gameName.getText().isBlank()|| gameState.getValue() == null || platformComboBox.getValue() == null) {
+
+        if (gameName.getText().isBlank() || gameState.getValue() == null || platformComboBox.getValue() == null) {
             String message = "You have requested fields not filled:";
             if (gameName.getText().isEmpty()) {
                 nameLabel.setTextFill(Color.RED);
@@ -119,7 +115,7 @@ public class AddGameViewController implements Initializable{
                 platformLabel.setTextFill(Color.RED);
                 message += "\nPlatform";
             } else {
-               platformLabel.setTextFill(Color.BLACK);
+                platformLabel.setTextFill(Color.BLACK);
             }
             Alerts.showAlert("Requested Fields", null, message, Alert.AlertType.WARNING);
         } else {
@@ -133,7 +129,7 @@ public class AddGameViewController implements Initializable{
             if (!(scope.getValue() == null || scope.getValue().isBlank())) {
                 g.setScope(scope.getValue());
             }
-            
+
             if (gameState.getValue().equals("Finished")) {
                 int time = Integer.parseInt(hours.getText()) * 60 + Integer.parseInt(minutes.getText());
                 Instance i = new Instance(platformComboBox.getValue(), "Finished", date.getValue(), time);
@@ -145,9 +141,8 @@ public class AddGameViewController implements Initializable{
             Alerts.showAlert("Successful", null, "Game added to your list", Alert.AlertType.INFORMATION);
             stage.close();
         }
-        
     }
-    
+
     public static void setStage(Stage stage) {
         AddGameViewController.stage = stage;
     }
@@ -156,7 +151,7 @@ public class AddGameViewController implements Initializable{
     public void initialize(URL location, ResourceBundle resources) {
         gameState.getItems().addAll("Playing", "Next", "Backlog", "Finished");
         platformComboBox.getItems().addAll(Game.getPlatforms());
-        
+
         hours.setTextFormatter(new TextFormatter<>(change -> {
             if (change.getText().matches("[0-9]*")) {
                 return change;
@@ -165,16 +160,16 @@ public class AddGameViewController implements Initializable{
         }));
         minutes.setTextFormatter(new TextFormatter<>(change -> {
             if (change.getText().matches("[0-9]*")) {
-                return change;
+                    return change;
             }
             return null;
         }));
-        
+
         gameState.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
             if (newValue.equals("Finished")) {
-               date.setDisable(false);
-               hours.setDisable(false);
-               minutes.setDisable(false);
+                date.setDisable(false);
+                hours.setDisable(false);
+                minutes.setDisable(false);
             } else {
                 date.setValue(null);
                 date.setDisable(true);
@@ -183,6 +178,6 @@ public class AddGameViewController implements Initializable{
                 minutes.setText(null);
                 minutes.setDisable(true);
             }
-         });
+        });
     }
 }

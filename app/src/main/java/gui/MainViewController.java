@@ -20,29 +20,22 @@ import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
 import javafx.stage.Stage;
 
-public class MainViewController implements Initializable{
-    
+public class MainViewController implements Initializable {
+
     @FXML
     private Button btnPlaying;
-    
     @FXML
     private Button btnNextToPlay;
-    
     @FXML
     private Button btnBacklog;
-
     @FXML
     private Button btnCompleted;
-
     @FXML
     private ImageView addGame;
-
     @FXML
     private VBox tabs;
-
     @FXML
     private ScrollPane scroll;
-
     @FXML
     private Parent addGameParent;
 
@@ -60,16 +53,15 @@ public class MainViewController implements Initializable{
             } catch (IOException e) {
                 e.printStackTrace();
             }
-            
+
             tabSelected = 0;
             tabSelect(tabSelected);
             tabUnselect(oldSelect);
-            
+
             if (!addGame.isVisible()) {
                 addGame.setVisible(true);
             }
         }
-        
     }
 
     @FXML
@@ -88,7 +80,7 @@ public class MainViewController implements Initializable{
             tabSelected = 1;
             tabSelect(tabSelected);
             tabUnselect(oldSelect);
-            
+
             if (!addGame.isVisible()) {
                 addGame.setVisible(true);
             }
@@ -111,7 +103,7 @@ public class MainViewController implements Initializable{
             tabSelected = 2;
             tabSelect(tabSelected);
             tabUnselect(oldSelect);
-            
+
             if (!addGame.isVisible()) {
                 addGame.setVisible(true);
             }
@@ -134,7 +126,7 @@ public class MainViewController implements Initializable{
             tabSelected = 3;
             tabSelect(tabSelected);
             tabUnselect(oldSelect);
-            
+
             if (!addGame.isVisible()) {
                 addGame.setVisible(true);
             }
@@ -145,7 +137,6 @@ public class MainViewController implements Initializable{
     private void onBtnAddGameAction() {
         Stage stage = ViewUtils.createNewStage("/gui/AddGameView.fxml");
         AddGameViewController.setStage(stage);
-        // Steam.setUserID(SyncPlataform.getUserID());
     }
 
     public static void setGameView(int gameId, ScrollPane scrollPane, ImageView addGameButton) {
@@ -156,7 +147,7 @@ public class MainViewController implements Initializable{
             ScrollPane content = loader.load();
             scrollPane.setContent(content);
             addGameButton.setVisible(false);
-            
+
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -181,6 +172,7 @@ public class MainViewController implements Initializable{
                 break;
         }
     }
+
     private void tabUnselect(int tab) {
         switch (tab) {
             case 0:
@@ -199,7 +191,6 @@ public class MainViewController implements Initializable{
                 break;
         }
     }
-
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
