@@ -194,6 +194,7 @@ public class MainViewController implements Initializable {
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
+        scroll.getStylesheets().add("/gui/scenes/GameListStyle.css");
         Font.loadFont(MainViewController.class.getResource("/gui/fonts/Inter/Inter.ttf").toExternalForm(), 14);
     }
 
