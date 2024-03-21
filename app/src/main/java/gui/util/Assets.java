@@ -1,24 +1,19 @@
 package gui.util;
 
 import java.io.File;
-import java.io.FileFilter;
 import java.io.InputStream;
-import java.net.MalformedURLException;
 import java.net.URI;
 import java.net.URL;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.StandardCopyOption;
+
+import gui.util.enumerations.AssetType;
 import javafx.scene.image.Image;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 
 public class Assets {
-
-    public static enum AssetType {
-        COVER,
-        ICON
-    }
 
     public static Image assetFileChooser(AssetType assetType) {
         Stage coverChooser = new Stage();
@@ -65,22 +60,19 @@ public class Assets {
         }
     }
 
-    public static InputStream loadImage(String filename) {
+    public static InputStream loadImage(String filename, AssetType assetType) {
         String jpg = "/gui/imgs/gameassets/" + filename + ".jpg";
         String png = "/gui/imgs/gameassets/" + filename + ".png";
 
-        InputStream jpgUrl = Assets.class.getResourceAsStream(jpg);
-        InputStream pngUrl = Assets.class.getResourceAsStream(png);
+        InputStream image = (Assets.class.getResourceAsStream(jpg) == null) ? Assets.class.getResourceAsStream(png) : Assets.class.getResourceAsStream(jpg);
 
-        if (jpgUrl != null) {
-            System.out.println(jpgUrl.toString());
-            return jpgUrl;
-        } else if (pngUrl != null) {
-            System.out.println(pngUrl.toString());
-            return pngUrl;
-        } else {
-            System.out.println("Nada encontrado");
-            return null;
+        switch (assetType) {
+            case COVER:
+                return (image == null) ? Assets.class.getResourceAsStream("/gui/imgs/gameassets/cover_empty.png") : image;
+            case ICON:
+                return (image == null) ? Assets.class.getResourceAsStream("/gui/imgs/gameassets/icon_empty.png") : image;
+            default:
+                return image;
         }
     }
 

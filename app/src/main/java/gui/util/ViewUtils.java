@@ -11,18 +11,14 @@ public class ViewUtils {
     private static Stage stage;
     private static Scene scene;
 
-    public synchronized static Stage createNewStage(String pathFXML) {
+    public synchronized static Stage createNewStage(Parent parent, String title) {
         stage = new Stage();
-        try {
-            Parent parent = FXMLLoader.load(ViewUtils.class.getResource(pathFXML));
             
-            scene = new Scene(parent);
-            stage.setTitle("Add Game");
-            stage.setScene(scene);
-            stage.show();
-        } catch (IOException e) {
-            System.out.println(e.getMessage());
-        }
+        scene = new Scene(parent);
+        stage.setTitle(title);
+        stage.setScene(scene);
+        stage.show();
+        
         return stage;
     }
 
@@ -40,6 +36,5 @@ public class ViewUtils {
     public static FXMLLoader loadFXML(String pathFXML) {
         FXMLLoader content = new FXMLLoader(ViewUtils.class.getResource(pathFXML));
         return content;
-        
     }
 }

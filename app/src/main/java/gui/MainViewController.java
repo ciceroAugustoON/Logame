@@ -1,13 +1,13 @@
 package gui;
 
 import db.GameDAO;
-import entity.Game;
+import entities.Game;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 
-import gui.scenes.GameList;
-import gui.scenes.GameView;
+import gui.scenes.GameListViewController;
+import gui.scenes.GameViewController;
 import gui.util.ViewUtils;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -15,7 +15,6 @@ import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.control.Button;
 import javafx.scene.control.ScrollPane;
-import javafx.scene.image.ImageView;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
 import javafx.stage.Stage;
@@ -23,178 +22,84 @@ import javafx.stage.Stage;
 public class MainViewController implements Initializable {
 
     @FXML
-    private Button btnPlaying;
+    private Button playingBtn;
     @FXML
-    private Button btnNextToPlay;
+    private Button nextToPlayBtn;
     @FXML
-    private Button btnBacklog;
+    private Button backlogBtn;
     @FXML
-    private Button btnCompleted;
+    private Button completedBtn;
     @FXML
-    private ImageView addGame;
+    private Button addGameBtn;
     @FXML
-    private VBox tabs;
+    private VBox tabsVBox;
     @FXML
-    private ScrollPane scroll;
+    private ScrollPane scrollPane;
     @FXML
     private Parent addGameParent;
 
-    private int tabSelected = -1;
+    private Button tabSelected;
 
     @FXML
-    private void onBtnPlayingAction() {
-        if (tabSelected != 0) {
-            int oldSelect = tabSelected;
-            GameList.setConfList("Playing", scroll, addGame);
-            ScrollPane node;
-            try {
-                node = ViewUtils.loadFXML("/gui/scenes/GameList.fxml").load();
-                scroll.setContent(node.getContent());
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-
-            tabSelected = 0;
-            tabSelect(tabSelected);
-            tabUnselect(oldSelect);
-
-            if (!addGame.isVisible()) {
-                addGame.setVisible(true);
-            }
-        }
+    private void onPlayingBtnAction() {
+        loadGameListView(playingBtn, "Playing");
     }
 
     @FXML
-    private void onBtnNextToPlayAction() {
-        if (tabSelected != 1) {
-            int oldSelect = tabSelected;
-            GameList.setConfList("Next", scroll, addGame);
-            ScrollPane node;
-            try {
-                node = ViewUtils.loadFXML("/gui/scenes/GameList.fxml").load();
-                scroll.setContent(node.getContent());
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-
-            tabSelected = 1;
-            tabSelect(tabSelected);
-            tabUnselect(oldSelect);
-
-            if (!addGame.isVisible()) {
-                addGame.setVisible(true);
-            }
-        }
+    private void onNextToPlayBtnAction() {
+        loadGameListView(nextToPlayBtn, "Next");
     }
 
     @FXML
-    private void onBtnBacklogAction() {
-        if (tabSelected != 2) {
-            int oldSelect = tabSelected;
-            GameList.setConfList("Backlog", scroll, addGame);
-            ScrollPane node;
-            try {
-                node = ViewUtils.loadFXML("/gui/scenes/GameList.fxml").load();
-                scroll.setContent(node.getContent());
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-
-            tabSelected = 2;
-            tabSelect(tabSelected);
-            tabUnselect(oldSelect);
-
-            if (!addGame.isVisible()) {
-                addGame.setVisible(true);
-            }
-        }
+    private void onBacklogBtnAction() {
+        loadGameListView(backlogBtn, "Backlog");
     }
 
     @FXML
-    private void onBtnCompletedAction() {
-        if (tabSelected != 3) {
-            int oldSelect = tabSelected;
-            GameList.setConfList("Finished", scroll, addGame);
-            ScrollPane node;
-            try {
-                node = ViewUtils.loadFXML("/gui/scenes/GameList.fxml").load();
-                scroll.setContent(node.getContent());
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-
-            tabSelected = 3;
-            tabSelect(tabSelected);
-            tabUnselect(oldSelect);
-
-            if (!addGame.isVisible()) {
-                addGame.setVisible(true);
-            }
-        }
+    private void onCompletedBtnAction() {
+        loadGameListView(completedBtn, "Finished");
     }
 
     @FXML
-    private void onBtnAddGameAction() {
-        Stage stage = ViewUtils.createNewStage("/gui/AddGameView.fxml");
+    private void onAddGameBtnAction() {
+        Stage stage = ViewUtils.createNewStage(UniversalController.loadAddGameView(), "Add Game");
         AddGameViewController.setStage(stage);
     }
 
-    public static void setGameView(int gameId, ScrollPane scrollPane, ImageView addGameButton) {
+    public ScrollPane getScrollPane() {
+        return this.scrollPane;
+    }
+
+    public void loadGameListView(Button tabSelected, String state) {
+        if (this.tabSelected != null) {
+            this.tabSelected.getStyleClass().remove("button_onclick");
+        }
+        
+        this.tabSelected = tabSelected;
+        this.tabSelected.getStyleClass().add("button_onclick");
+
+        ScrollPane sp = (ScrollPane)UniversalController.loadGameListView(state);
+
+        scrollPane.setContent(sp.getContent());
+    }
+
+    public void loadGameView(int gameId) {
         try {
             Game g = GameDAO.selectGameData(gameId);
-            GameView.setGame(g);
+            GameViewController.setGame(g);
             FXMLLoader loader = ViewUtils.loadFXML("/gui/scenes/GameView.fxml");
             ScrollPane content = loader.load();
             scrollPane.setContent(content);
-            addGameButton.setVisible(false);
+            // addGameBtn.setVisible(false);
 
         } catch (IOException e) {
             e.printStackTrace();
         }
     }
 
-    private void tabSelect(int tab) {
-        switch (tab) {
-            case 0:
-                btnPlaying.getStyleClass().add("button_onclick");
-                break;
-            case 1:
-                btnNextToPlay.getStyleClass().add("button_onclick");
-                break;
-            case 2:
-                btnBacklog.getStyleClass().add("button_onclick");
-                break;
-            case 3:
-                btnCompleted.getStyleClass().add("button_onclick");
-                break;
-            default:
-                System.out.println("Invalid Option");
-                break;
-        }
-    }
-
-    private void tabUnselect(int tab) {
-        switch (tab) {
-            case 0:
-                btnPlaying.getStyleClass().remove("button_onclick");
-                break;
-            case 1:
-                btnNextToPlay.getStyleClass().remove("button_onclick");
-                break;
-            case 2:
-                btnBacklog.getStyleClass().remove("button_onclick");
-                break;
-            case 3:
-                btnCompleted.getStyleClass().remove("button_onclick");
-                break;
-            default:
-                break;
-        }
-    }
-
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        scroll.getStylesheets().add("/gui/scenes/GameListStyle.css");
+        scrollPane.getStylesheets().add("/gui/scenes/GameListStyle.css");
         Font.loadFont(MainViewController.class.getResource("/gui/fonts/Inter/Inter.ttf").toExternalForm(), 14);
     }
 

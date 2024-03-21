@@ -1,8 +1,9 @@
 package gui.scenes;
 
-import entity.Game;
+import entities.Game;
 import gui.util.Assets;
-import java.io.File;
+import gui.util.enumerations.AssetType;
+
 import java.net.URL;
 import java.util.ResourceBundle;
 import javafx.fxml.FXML;
@@ -11,7 +12,7 @@ import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 
-public class GameView implements Initializable {
+public class GameViewController implements Initializable {
 
     @FXML
     private ImageView gamePortrait;
@@ -29,7 +30,7 @@ public class GameView implements Initializable {
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        Image imgCover = new Image(Assets.loadImage(g.getCover()));
+        Image imgCover = new Image(Assets.loadImage(g.getCover(), AssetType.COVER));
         gamePortrait.setImage(imgCover);
         gameName.setText(g.getName());
         gameDesc.setText(g.getRelease() + "\n" + g.getGenre() + "\n" + g.getScope());

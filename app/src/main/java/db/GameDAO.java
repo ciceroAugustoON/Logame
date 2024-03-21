@@ -7,8 +7,8 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-import entity.Game;
-import entity.Instance;
+import entities.Game;
+import entities.Instance;
 import gui.util.Assets;
 import java.sql.Date;
 
